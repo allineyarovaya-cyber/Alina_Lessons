@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Invisible Noise Around Us — B2+ Lesson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF5EC; --bg-alt:#F3ECDE; --ink:#2C241C; --ink-soft:#5B5044;
+    --card:#FFFDF8; --border:#E3D6BE;
+    --amber:#C6863A; --amber-soft:#F1DFB9; --amber-deep:#93591F;
+    --blue:#3C6B85; --blue-soft:#DFEAEE; --blue-deep:#234B60;
+    --sage:#5E7F55; --sage-soft:#E3EBDD;
+    --rust:#B4573B; --rust-soft:#F3E1D8;
+    --shadow:0 6px 20px rgba(44,36,28,0.08);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Lora',serif;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:600;color:var(--ink);margin:0;}
+  p{margin:0 0 .9em 0;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 24px;}
+  .eyebrow{font-family:'Karla',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;font-weight:700;color:var(--amber-deep);}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(250,245,236,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);}
+  .nav-inner{max-width:900px;margin:0 auto;padding:12px 20px;display:flex;gap:6px;overflow-x:auto;}
+  .nav-inner button{font-family:'Karla',sans-serif;font-size:.78rem;font-weight:600;color:var(--ink-soft);padding:7px 13px;border-radius:100px;white-space:nowrap;border:1px solid transparent;background:none;cursor:pointer;transition:.2s;}
+  .nav-inner button:hover{border-color:var(--amber);color:var(--amber-deep);}
+  .nav-inner button.active{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+  button:focus-visible, [tabindex]:focus-visible{outline:2.5px solid var(--blue);outline-offset:2px;}
+
+  header.hero{padding:54px 24px 38px;border-bottom:1px solid var(--border);}
+  .hero-inner{max-width:680px;margin:0 auto;}
+  h1.title{font-size:clamp(1.8rem,4vw,2.4rem);line-height:1.15;margin:.3em 0 .4em;}
+  .lede{font-size:1rem;color:var(--ink-soft);}
+  .driving-q{background:var(--ink);color:var(--bg);border-radius:12px;padding:16px 20px;font-family:'Fraunces',serif;font-style:italic;font-size:1.02rem;margin-top:16px;}
+
+  section{padding:48px 0 70px;display:none;}
+  section.active{display:block;animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .sec-num{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:var(--amber);border:1.5px solid var(--amber);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  h2.sec-title{font-size:1.55rem;}
+  .sec-intro{color:var(--ink-soft);max-width:64ch;margin:14px 0 26px;}
+  .stage-block{margin-bottom:42px;}
+  .stage-block h3{font-size:1.12rem;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+  .stage-label{font-family:'Karla',sans-serif;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue-deep);background:var(--blue-soft);padding:3px 9px;border-radius:100px;}
+  .hint{font-family:'Karla',sans-serif;font-size:.78rem;color:var(--ink-soft);font-weight:600;margin-bottom:14px;}
+  .chip-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .chip{font-family:'Karla',sans-serif;font-size:.76rem;background:var(--blue-soft);color:var(--blue-deep);padding:5px 11px;border-radius:100px;}
+
+  /* ================= TAB 1 — BOOK-STYLE ARTICLE ================= */
+  .book-page{max-width:620px;margin:0 auto;}
+  .chapter-divider{text-align:center;color:var(--amber);margin:44px 0;font-size:1.3rem;letter-spacing:.4em;}
+  .book-chapter{margin-bottom:6px;}
+  .chapter-num{text-align:center;font-family:'Karla',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.25em;color:var(--amber);margin-bottom:6px;}
+  .book-chapter h3{font-size:1.5rem;text-align:center;margin-bottom:2px;}
+  .book-chapter .chapter-sub{display:block;text-align:center;font-style:italic;font-family:'Lora',serif;font-size:.92rem;color:var(--ink-soft);margin-bottom:22px;}
+  .book-chapter .no-sub{margin-bottom:22px;}
+  .book-text{font-size:1.04rem;line-height:1.9;color:var(--ink);}
+  .book-text .dropcap{float:left;font-family:'Fraunces',serif;font-weight:700;font-size:3.6rem;line-height:.78;padding:6px 10px 0 0;color:var(--amber-deep);}
+  .book-text .stat{color:var(--amber-deep);font-weight:600;}
+
+  .discuss-toggle{display:flex;align-items:center;gap:8px;font-family:'Karla',sans-serif;font-weight:700;font-size:.8rem;color:var(--blue-deep);background:var(--blue-soft);border:none;border-radius:100px;padding:9px 18px;cursor:pointer;margin-top:6px;}
+  .discuss-toggle .chev{transition:transform .25s;}
+  .discuss-toggle.open .chev{transform:rotate(180deg);}
+  .discuss-panel{max-height:0;overflow:hidden;transition:max-height .45s ease;}
+  .discuss-panel.open{max-height:1400px;margin-top:14px;}
+  .discuss-inner{background:var(--bg-alt);border-left:3px solid var(--blue);border-radius:8px;padding:18px 22px;font-family:'Karla',sans-serif;font-size:.87rem;color:var(--ink-soft);}
+  .discuss-inner ul{padding-left:18px;margin:0 0 4px;}
+  .discuss-inner li{margin-bottom:8px;}
+  .discuss-inner .sub-label{font-weight:700;color:var(--blue-deep);margin:14px 0 8px;display:block;}
+  .discuss-inner .starter{font-style:italic;margin-bottom:5px;}
+  .discuss-inner .scenario-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-top:8px;}
+
+  .source-link{max-width:620px;margin:0 auto 30px;font-family:'Karla',sans-serif;font-size:.78rem;}
+  .source-link a{color:var(--blue-deep);text-decoration:none;border-bottom:1px solid var(--blue);}
+  .source-link a:hover{color:var(--amber-deep);border-color:var(--amber);}
+  .source-link .src-label{color:var(--ink-soft);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;margin-right:6px;}
+
+  /* ================= TAB 2 — definition feature + "what you get" ================= */
+  .definition-feature{position:relative;background:var(--ink);color:var(--bg);border-radius:16px;padding:38px 40px 34px;text-align:center;overflow:hidden;}
+  .definition-feature::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:var(--amber);opacity:.14;}
+  .def-quote{display:block;font-family:'Fraunces',serif;font-size:3.4rem;line-height:1;color:var(--amber);opacity:.8;margin-bottom:-6px;}
+  .def-text{position:relative;font-family:'Fraunces',serif;font-weight:500;font-style:italic;font-size:1.4rem;line-height:1.45;max-width:46ch;margin:0 auto;}
+  .get-list{list-style:none;counter-reset:get-counter;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .get-list li{counter-increment:get-counter;position:relative;padding:12px 18px 12px 52px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;font-family:'Karla',sans-serif;font-size:.94rem;}
+  .get-list li::before{content:counter(get-counter);position:absolute;left:16px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:var(--amber-soft);color:var(--amber-deep);font-weight:700;font-size:.78rem;display:flex;align-items:center;justify-content:center;}
+  .get-list li.get-open{font-style:italic;color:var(--ink-soft);border-style:dashed;}
+
+  /* ================= reused: flip cards / map ================= */
+  .vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+  .flip-card{perspective:1000px;height:140px;cursor:pointer;}
+  .flip-card.tall{height:200px;}
+  .flip-card.cog{height:300px;}
+  .flip-back .src{display:block;margin-top:8px;font-weight:700;font-size:.75rem;opacity:.9;}
+  .flip-back .method{display:block;margin-top:5px;font-size:.72rem;font-style:italic;opacity:.8;line-height:1.4;}
+  .flip-back .src-link{display:inline-block;margin-top:9px;color:#FBF2E1;font-weight:700;font-size:.74rem;text-decoration:underline;}
+  .flip-inner{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d;}
+  .flip-card.flipped .flip-inner{transform:rotateY(180deg);}
+  .flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:16px;display:flex;flex-direction:column;justify-content:center;box-shadow:var(--shadow);}
+  .flip-front{background:var(--card);border:1.5px solid var(--amber-soft);position:relative;}
+  .flip-front .term{font-family:'Fraunces',serif;font-weight:600;font-size:1.02rem;color:var(--amber-deep);}
+  .flip-front .tap{font-family:'Karla',sans-serif;font-size:.66rem;color:var(--ink-soft);margin-top:8px;opacity:.7;}
+  .flip-front .feel{font-family:'Karla',sans-serif;font-size:.76rem;color:var(--ink-soft);margin-top:6px;line-height:1.4;}
+  .flip-front .feel-list{margin:8px 0 0;padding-left:16px;font-family:'Karla',sans-serif;font-size:.76rem;color:var(--ink-soft);line-height:1.45;}
+  .flip-front .feel-list li{margin-bottom:3px;}
+  .flip-front .seen-dot{position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:var(--sage);opacity:0;transition:opacity .2s;}
+  .flip-card.viewed .flip-front .seen-dot{opacity:1;}
+  .flip-back{background:var(--amber-deep);color:#FBF2E1;transform:rotateY(180deg);font-family:'Karla',sans-serif;font-size:.83rem;line-height:1.45;overflow-y:auto;}
+
+  .get-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;}
+  .get-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;box-shadow:var(--shadow);}
+  .get-card-head{display:flex;align-items:center;gap:12px;}
+  .get-num{width:28px;height:28px;border-radius:50%;background:var(--amber-soft);color:var(--amber-deep);font-family:'Karla',sans-serif;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .get-card-head .term{font-family:'Fraunces',serif;font-weight:600;font-size:.98rem;flex:1;cursor:pointer;}
+  .get-card-head .chev{color:var(--amber);transition:transform .25s;cursor:pointer;}
+  .get-tick{width:18px;height:18px;accent-color:var(--sage);flex-shrink:0;cursor:pointer;}
+  .get-card.open .get-card-head .chev{transform:rotate(180deg);}
+  .get-card.open{border-color:var(--amber);}
+  .get-body{max-height:0;overflow:hidden;transition:max-height .4s ease;font-family:'Karla',sans-serif;font-size:.83rem;color:var(--ink-soft);}
+  .get-card.open .get-body{max-height:320px;margin-top:10px;}
+  .get-body .lead{margin-bottom:8px;}
+  .get-item-row{display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer;}
+  .get-item-row span{flex:1;}
+  .get-body ul li{margin-bottom:4px;}
+
+  .summary-map{max-width:560px;margin:0 auto;display:flex;flex-direction:column;align-items:center;}
+  .sm-items{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+  .sm-item{background:var(--card);border:1.5px solid var(--border);border-radius:100px;padding:10px 18px 10px 12px;font-family:'Karla',sans-serif;font-size:.88rem;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;}
+  .sm-letter{width:24px;height:24px;border-radius:50%;background:var(--amber-soft);color:var(--amber-deep);font-family:'Karla',sans-serif;font-weight:700;font-size:.76rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sm-arrow{font-size:1.6rem;color:var(--amber);line-height:1;margin:10px 0;}
+  .sm-result{background:var(--ink);color:var(--bg);font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:1.15rem;text-align:center;padding:16px 26px;border-radius:14px;max-width:34ch;}
+
+  .noise-cta{text-align:center;margin-top:18px;}
+  .noise-cta button{font-family:'Karla',sans-serif;font-weight:700;font-size:.85rem;padding:11px 24px;border-radius:100px;border:none;background:var(--amber-deep);color:#FBF2E1;cursor:pointer;}
+  .noise-result{display:none;margin-top:20px;background:var(--bg-alt);border:1.5px solid var(--border);border-radius:14px;padding:20px 24px;text-align:center;}
+  .noise-result.shown{display:block;animation:fadein .3s ease;}
+  .noise-pct{font-family:'Fraunces',serif;font-size:2.2rem;font-weight:600;color:var(--amber-deep);}
+  .noise-band{font-family:'Karla',sans-serif;font-weight:700;font-size:.92rem;margin:4px 0 10px;}
+  .noise-desc{font-family:'Karla',sans-serif;font-size:.85rem;color:var(--ink-soft);}
+
+  .econ-feature{position:relative;background:var(--ink);color:var(--bg);border-radius:16px;padding:32px 34px;overflow:hidden;}
+  .econ-feature::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:var(--amber);opacity:.14;}
+  .econ-feature h4{position:relative;color:var(--amber);font-size:1.2rem;margin-bottom:12px;}
+  .econ-feature p{position:relative;font-family:'Lora',serif;font-size:.98rem;line-height:1.7;color:#EDE6D8;}
+  .econ-stat{color:var(--amber);font-weight:700;}
+  .econ-fomo{position:relative;margin:16px 0;background:rgba(255,255,255,.07);border-left:3px solid var(--amber);border-radius:8px;padding:14px 18px;}
+  .econ-fomo-label{display:block;font-family:'Karla',sans-serif;font-weight:700;font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;color:var(--amber);margin-bottom:8px;}
+  .econ-fomo p{font-style:italic;margin:0;}
+  .econ-closer{font-family:'Fraunces',serif;font-style:italic;font-size:1.05rem;color:var(--amber-soft);margin-top:14px;}
+
+  /* ================= TAB 3 — consequences ================= */
+  .tabbar{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+  .tabbar button{font-family:'Karla',sans-serif;font-weight:700;font-size:.8rem;padding:9px 15px;border-radius:100px;border:1.5px solid var(--border);background:var(--card);color:var(--ink-soft);cursor:pointer;transition:.2s;}
+  .tabbar button.active{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+  .tabpane{display:none;}
+  .tabpane.active{display:block;animation:fadein .3s ease;}
+
+  .act-list{display:flex;flex-direction:column;gap:10px;}
+  .act-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:16px 20px;cursor:pointer;box-shadow:var(--shadow);}
+  .act-head{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .act-head .verb{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:var(--rust);}
+  .act-head .chev{color:var(--amber);transition:transform .25s;flex-shrink:0;}
+  .act-card.open .act-head .chev{transform:rotate(180deg);}
+  .act-front{font-family:'Karla',sans-serif;font-size:.85rem;margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;}
+  .act-front .prompt{background:var(--bg-alt);border:1px dashed var(--border);color:var(--ink-soft);padding:7px 12px;border-radius:100px;font-weight:600;font-size:.78rem;}
+  .act-body{max-height:0;overflow:hidden;transition:max-height .45s ease;}
+  .act-card.open .act-body{max-height:500px;margin-top:14px;}
+  .act-body .why,.act-body .instead{font-family:'Karla',sans-serif;font-size:.85rem;padding:9px 11px;border-radius:8px;margin-bottom:7px;}
+  .act-body .why{background:var(--rust-soft);color:#6E2E1B;}
+  .act-body .instead-block{background:var(--sage-soft);color:#33482C;padding:9px 14px;border-radius:8px;}
+  .act-body .instead-block ul{margin:6px 0 0;padding-left:18px;}
+  .act-body .instead-block ul li{margin-bottom:5px;}
+  .act-body ul{margin:0;padding-left:18px;font-family:'Karla',sans-serif;font-size:.83rem;color:var(--ink-soft);}
+  .act-body ul li{margin-bottom:5px;}
+  .act-body .discuss-q{font-family:'Fraunces',serif;font-style:italic;font-size:.92rem;color:var(--ink-soft);margin-top:12px;}
+
+  /* ================= TAB 4 — poster-style suggestions ================= */
+  .poster-list{display:flex;flex-direction:column;gap:22px;}
+  .poster-card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:30px 32px;text-align:center;box-shadow:var(--shadow);max-width:560px;margin:0 auto;}
+  .poster-num{width:34px;height:34px;border-radius:50%;background:var(--amber-soft);color:var(--amber-deep);font-family:'Karla',sans-serif;font-weight:700;font-size:.9rem;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+  .poster-card h4{font-size:1.2rem;margin-bottom:12px;}
+  .poster-card p{font-family:'Lora',serif;font-size:.96rem;color:var(--ink-soft);line-height:1.7;max-width:44ch;margin:0 auto;}
+
+  .lang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .lang-cat{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:16px 18px;}
+  .lang-cat h5{font-family:'Karla',sans-serif;font-weight:700;font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--blue-deep);margin-bottom:10px;}
+  .lang-cat ul{margin:0;padding-left:16px;font-family:'Lora',serif;font-style:italic;font-size:.88rem;color:var(--ink-soft);}
+  .lang-cat ul li{margin-bottom:7px;}
+
+  /* ================= TAB 5 — glossary ================= */
+  .gloss-group{margin-bottom:36px;}
+  .gloss-group h3{font-size:1.05rem;margin-bottom:14px;}
+  .gloss-item{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:13px 18px;margin-bottom:9px;}
+  .gloss-term{font-family:'Fraunces',serif;font-weight:600;color:var(--amber-deep);font-size:1rem;}
+  .gloss-def{font-family:'Karla',sans-serif;font-size:.86rem;color:var(--ink-soft);margin-top:4px;}
+  .gloss-ex{font-family:'Lora',serif;font-style:italic;font-size:.86rem;color:var(--ink-soft);margin-top:6px;padding-left:12px;border-left:2px solid var(--amber-soft);}
+
+  footer{text-align:center;padding:30px 24px 56px;font-family:'Karla',sans-serif;font-size:.76rem;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner" id="topNav">
+    <button class="active" data-section="s1">1 · The Article</button>
+    <button data-section="s2">2 · Digital Noise</button>
+    <button data-section="s3">3 · Consequences</button>
+    <button data-section="s4">4 · What else can we do?</button>
+    <button data-section="s5">5 · Vocabulary</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <span class="eyebrow">B2+ · Reading, Vocabulary &amp; Discussion</span>
+    <h1 class="title">The Invisible Noise Around Us</h1>
+    <p class="lede">A workplace reading, a vocabulary investigation, and a look at what digital noise costs us — and what we can actually do about it.</p>
+    <div class="driving-q">"Is your phone a tool you control — or a tool that controls your attention?"</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ================= SECTION 1 — ARTICLE ================= -->
+  <section id="s1" class="active">
+    <div class="sec-head"><span class="sec-num">1</span><h2 class="sec-title">The Workplace Is Getting Louder</h2></div>
+    <p class="sec-intro">Read each chapter, then open the discussion drop-down beneath it when you're ready to talk.</p>
+    <p class="source-link"><span class="src-label">Source</span><a href="https://www.unily.com/resources/blogs/unily-research-exposes-workplace-digital-noise-crisis?utm_source=chatgpt.com" target="_blank" rel="noopener">Unily Research Exposes Workplace Digital Noise Crisis</a></p>
+    <div class="book-page" id="bookPage"></div>
+  </section>
+
+  <!-- ================= SECTION 2 — DIGITAL NOISE ================= -->
+  <section id="s2">
+    <div class="sec-head"><span class="sec-num">2</span><h2 class="sec-title">Digital Noise: What It Is &amp; Why It Appears</h2></div>
+
+    <div class="stage-block">
+      <h3>So, what do we have?</h3>
+      <p class="sec-intro" style="margin:6px 0 20px;">A quick recap of the reading, laid out visually.</p>
+      <div class="summary-map">
+        <div class="sm-items">
+          <div class="sm-item"><span class="sm-letter">a</span>digital information</div>
+          <div class="sm-item"><span class="sm-letter">b</span>notifications</div>
+          <div class="sm-item"><span class="sm-letter">c</span>messages</div>
+          <div class="sm-item"><span class="sm-letter">d</span>content</div>
+          <div class="sm-item"><span class="sm-letter">e</span>online stimuli</div>
+        </div>
+        <div class="sm-arrow">↓</div>
+        <div class="sm-result">all constantly competing for our attention</div>
+      </div>
+    </div>
+
+    <div class="stage-block">
+      <h3>Result: how much noise do you have?</h3>
+      <p class="sec-intro" style="margin:6px 0 16px;">Tap a term to open it, then tick every point you notice in yourself — 13 in total — before checking your result.</p>
+      <div class="get-grid" id="getGrid"></div>
+      <div class="noise-cta">
+        <button id="calcNoiseBtn">See my result</button>
+      </div>
+      <div class="noise-result" id="noiseResult"></div>
+    </div>
+
+    <div class="stage-block">
+      <h3>Why does it appear?</h3>
+      <div class="econ-feature">
+        <h4>The Attention Economy</h4>
+        <p>Apps and platforms don't just want your time — they're built to keep it. Every scroll, like and notification is designed to hold your attention for as long as possible, because your attention has <span class="econ-stat">commercial value</span>: the longer you stay, the more valuable you become to advertisers.</p>
+        <div class="econ-fomo">
+          <span class="econ-fomo-label">One of the most effective tools: FOMO — fear of missing out</span>
+          <p>&#8220;I keep checking my phone because I'm afraid I'll miss something important.&#8221;</p>
+        </div>
+        <p class="econ-closer">The real product being sold isn't an app. It's your time and attention.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 3 — CONSEQUENCES ================= -->
+  <section id="s3">
+    <div class="sec-head"><span class="sec-num">3</span><h2 class="sec-title">What Are the Consequences?</h2></div>
+    <p class="sec-intro">Digital noise affects us on three levels.</p>
+
+    <div class="tabbar" id="tabbar">
+      <button class="active" data-tab="cog">🧠 Cognitive</button>
+      <button data-tab="emo">😵 Emotional</button>
+      <button data-tab="beh">📱 Behavioural</button>
+    </div>
+
+    <div class="tabpane active" id="pane-cog">
+      <p class="hint">Tap a card to see the research behind each effect — with its source and a link.</p>
+      <div class="vocab-grid" id="cogGrid"></div>
+    </div>
+    <div class="tabpane" id="pane-emo">
+      <p class="sec-intro" style="margin-bottom:14px;">As you read each card, keep count — in how many do you recognise yourself?</p>
+      <div class="vocab-grid" id="emoGrid"></div>
+    </div>
+    <div class="tabpane" id="pane-beh">
+      <p class="sec-intro" style="margin-bottom:16px;">We develop the habit of checking our phones compulsively. Think about the two questions on each card, then tap it to check your ideas against ours.</p>
+      <div class="act-list" id="behList"></div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 4 — WHAT ELSE ================= -->
+  <section id="s4">
+    <div class="sec-head"><span class="sec-num">4</span><h2 class="sec-title">What Else Can We Do?</h2></div>
+    <p class="sec-intro">Beyond turning off notifications and setting boundaries — some approaches we haven't covered yet. Read each one, then discuss: would you actually do this?</p>
+    <div class="poster-list" id="stratList"></div>
+  </section>
+
+  <!-- ================= SECTION 5 — VOCABULARY ================= -->
+  <section id="s5">
+    <div class="sec-head"><span class="sec-num">5</span><h2 class="sec-title">Vocabulary Recap</h2></div>
+    <p class="sec-intro">Every key term from this lesson, in one place — use it to revise before you discuss.</p>
+    <div id="glossaryWrap"></div>
+  </section>
+
+</div>
+
+<footer>The Invisible Noise Around Us · B2+ lesson</footer>
+
+<script>
+function makeInteractive(el, onToggle){
+  el.tabIndex = 0;
+  el.setAttribute('role','button');
+  el.addEventListener('click', onToggle);
+  el.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); onToggle(); } });
+}
+
+document.getElementById('topNav').addEventListener('click', e => {
+  const btn = e.target.closest('button'); if(!btn) return;
+  document.querySelectorAll('#topNav button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('section[id^="s"]').forEach(s=>s.classList.remove('active'));
+  btn.classList.add('active');
+  const t = document.getElementById(btn.dataset.section);
+  t.classList.add('active');
+  t.scrollIntoView({block:'start'});
+});
+
+/* ================= SECTION 1: BOOK ARTICLE ================= */
+const chapters = [
+  {
+    roman: "I", title: "The Workplace Is Getting Louder", sub: "Even when nobody is speaking",
+    paragraphHTML: `<span class="dropcap">I</span>magine this. You sit down at your desk, open your laptop and decide that, for the next hour, you are going to concentrate on one important task. You have barely got into the flow when — ping! — a notification appears. You glance at it. It will only take a second, you tell yourself. Five minutes later, you are replying to a message, checking your email and trying to remember what you were working on in the first place.`,
+    discussionHTML: `
+      <ul>
+        <li>What usually breaks your concentration when you're working?</li>
+        <li>What kind of notification is hardest for you to ignore? Why?</li>
+        <li>Can you remember the last time a "quick check" turned into a 10–15 minute distraction? What happened?</li>
+        <li>Is checking a notification actually a break from work, or does it become part of the work?</li>
+        <li>What is more distracting: a notification, an email, a colleague, or your own thoughts?</li>
+      </ul>
+      <span class="sub-label">Give me a real example:</span>
+      <div class="starter">I was working on… when…</div>
+      <div class="starter">I had just started… when…</div>
+      <div class="starter">By the time I got back to my task…</div>`
+  },
+  {
+    roman: "II", title: "When Technology Becomes Noise",
+    paragraphHTML: `Digital technology was supposed to make our working lives easier, faster and more connected. And, in many ways, it has. We can communicate with colleagues across the world, access information instantly and attend a meeting without leaving our homes. Yet the very tools that were designed to save us time may also be taking our attention away from us. Research by Unily and Vanson Bourne suggests that <span class="stat">almost half</span> of the 500 employees and managers surveyed were distracted by workplace notifications at least every 30 minutes. Nearly <span class="stat">one in three</span> experienced interruptions every 15 minutes or less. That may not sound dramatic until you consider the cumulative effect. The more frequently our attention is interrupted, the harder it can become to concentrate deeply. Every time we move from an email to a chat message, from a chat message to a meeting and then back to a document, we have to switch contexts. Our attention becomes fragmented. It is almost as if we were trying to read a book while someone kept tapping us on the shoulder.`,
+    discussionHTML: `
+      <ul>
+        <li>What was technology originally supposed to solve at work?</li>
+        <li>Has technology actually made your working life easier? Give one example where it has and one where it hasn't.</li>
+        <li>Which digital tool saves you the most time? Which one wastes the most time?</li>
+        <li>Could you realistically work for 30 minutes without checking a notification?</li>
+        <li>How often do you think you switch between different tasks during a typical working hour?</li>
+        <li>What happens to the quality of your work when you keep switching between tasks?</li>
+      </ul>`
+  },
+  {
+    roman: "III", title: "A Double-Edged Sword",
+    paragraphHTML: `What makes the situation particularly interesting is that employees do not necessarily want less technology. Email was considered effective by <span class="stat">91%</span> of respondents, while <span class="stat">73%</span> said digital tools helped them feel more connected. So technology is clearly a double-edged sword: it keeps us informed and connected, but it can also create a constant stream of information competing for our attention. Rarely do we stop to ask whether every piece of information deserves our immediate attention. Almost <span class="stat">60%</span> of those surveyed said digital tools contributed to workplace stress. Although each individual message may be useful, the sheer volume can become overwhelming.`,
+    discussionHTML: `<ul><li>What technology would you absolutely refuse to give up? Why?</li></ul>`
+  },
+  {
+    roman: "IV", title: "From Productivity to Pressure",
+    paragraphHTML: `Employees are not simply doing their jobs anymore. They are also expected to manage the flow of information surrounding their jobs — deciding what to read, what to answer, what to ignore and what can wait. That constant decision-making creates a cognitive burden. Managers may be particularly vulnerable. They are often juggling multiple communication channels and their attention is constantly being pulled in different directions. If someone is interrupted every few minutes, they may still look busy and productive. But being busy is not necessarily the same as being effective.`,
+    discussionHTML: `
+      <ul>
+        <li>What extra "job" do employees have besides doing their actual work?</li>
+        <li>Who should be responsible for managing information overload: the employee or the company?</li>
+        <li>What does a busy person look like at work?</li>
+        <li>What does an effective person look like?</li>
+        <li>Can someone look extremely busy while achieving very little? Give me an example.</li>
+        <li>Can someone look unproductive but actually be doing important work?</li>
+      </ul>
+      <span class="sub-label">Scenario</span>
+      <div class="scenario-box">
+        You have 50 unread emails, three meetings, ten messages and one important report to finish. What do you do first? Why?
+        <br><br>What would you ignore? What could wait? What would you delegate?
+      </div>
+      <span class="sub-label">Useful language</span>
+      <div class="chip-row">
+        <span class="chip">prioritise</span><span class="chip">delegate</span><span class="chip">put something off</span><span class="chip">deal with</span><span class="chip">ignore</span><span class="chip">respond to</span><span class="chip">focus on</span><span class="chip">get through</span>
+      </div>`
+  },
+  {
+    roman: "V", title: "Could AI Turn Down the Volume?",
+    paragraphHTML: `Many respondents believe AI could filter out unnecessary notifications, identify what is urgent and prioritise information. Another proposed solution is a workplace "superapp" bringing different tools together. But there is a catch. If we simply add AI to an already complicated digital environment, we could end up with more technology rather than less noise. The same applies to a superapp. Putting every communication channel in one place does not necessarily make communication better. What if we simply put all the noise in one room?`,
+    discussionHTML: `
+      <span class="sub-label">Debate</span>
+      <ul>
+        <li>Would you trust AI to decide which messages are important? Why / why not?</li>
+        <li>What if AI decided that your boss's message wasn't urgent?</li>
+        <li>Would you rather receive 20 messages and decide what matters yourself, or receive 5 messages selected by AI?</li>
+        <li>Could AI eventually know what deserves your attention better than you do?</li>
+      </ul>
+      <span class="sub-label">The "superapp" idea</span>
+      <ul>
+        <li>Does putting everything in one place necessarily make things simpler?</li>
+        <li>What are the advantages and disadvantages of having one app for everything?</li>
+        <li>Would you prefer one superapp or several specialised apps? Why?</li>
+      </ul>
+      <span class="sub-label">Looking ahead</span>
+      <ul><li>If companies keep adding technology to solve technology-related problems, where could this lead in five years?</li></ul>`
+  },
+  {
+    roman: "VI", title: "The Attention Economy",
+    paragraphHTML: `Perhaps the deeper issue has little to do with notifications themselves. For years, companies worried about how to get more information. Today, information is everywhere. What is becoming increasingly scarce is not information, but attention. Our attention is a limited resource. Once it has been divided between emails, meetings, messages and alerts, there may be little left for creativity, problem-solving and deep work. The more connected we become, the more valuable uninterrupted time becomes. Maybe the smartest workplace of the future will not be the one with the most sophisticated technology. It will be the one that understands when to speak — and when to stay silent.`,
+    discussionHTML: `
+      <ul>
+        <li>What is the most valuable thing you can give someone at work: money, time, attention, or something else?</li>
+        <li>Why might attention be becoming more valuable than information?</li>
+      </ul>
+      <span class="sub-label">"Our attention is a limited resource." Do you agree?</span>
+      <ul>
+        <li>Can you produce high-quality work while constantly switching between tasks?</li>
+        <li>What is the longest period you can usually concentrate without checking something?</li>
+      </ul>`
+  },
+];
+
+const bookPage = document.getElementById('bookPage');
+chapters.forEach((ch, i) => {
+  if (i > 0){
+    const div = document.createElement('div');
+    div.className = 'chapter-divider';
+    div.textContent = '· · ·';
+    bookPage.appendChild(div);
+  }
+  const chDiv = document.createElement('div');
+  chDiv.className = 'book-chapter';
+  chDiv.innerHTML = `
+    <div class="chapter-num">Chapter ${ch.roman}</div>
+    <h3>${ch.title}</h3>
+    ${ch.sub ? `<span class="chapter-sub">${ch.sub}</span>` : `<div class="no-sub"></div>`}
+    <p class="book-text">${ch.paragraphHTML}</p>
+    <button class="discuss-toggle">💬 Discuss <span class="chev">▾</span></button>
+    <div class="discuss-panel"><div class="discuss-inner">${ch.discussionHTML}</div></div>
+  `;
+  const toggle = chDiv.querySelector('.discuss-toggle');
+  const panel = chDiv.querySelector('.discuss-panel');
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('open');
+    panel.classList.toggle('open');
+  });
+  bookPage.appendChild(chDiv);
+});
+
+/* ================= SECTION 2: vocab + map ================= */
+function makeFlipCard(term, back, extraClass){
+  const card = document.createElement('div');
+  card.className = 'flip-card' + (extraClass ? ' ' + extraClass : '');
+  card.setAttribute('aria-label', term + ' — press to reveal more');
+  card.innerHTML = `
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <span class="seen-dot"></span>
+        <div class="term">${term}</div>
+        <div class="tap">tap to reveal →</div>
+      </div>
+      <div class="flip-face flip-back">${back}</div>
+    </div>`;
+  makeInteractive(card, () => { card.classList.toggle('flipped'); card.classList.add('viewed'); });
+  return card;
+}
+
+const getItems = [
+  { term:"information overload", lead:"Your brain struggles to process everything coming in. As a result, you:", items:["constantly switch between tasks","procrastinate on the thing that actually matters","have difficulty concentrating","forget what you just read a minute ago"] },
+  { term:"digital clutter", lead:"Your files, tabs and apps pile up with no order. As a result, you:", items:["waste time searching for things you know you saved somewhere","feel a small background stress opening your laptop","keep putting off organising because it feels like too much"] },
+  { term:"online distractions", lead:"Every open tab is quietly competing for your attention. As a result, you:", items:["lose track of the task you actually started","take far longer than expected to finish something simple","feel busy all day without much to show for it"] },
+  { term:"notification overload", lead:"Every ping demands an instant reaction. As a result, you:", items:["interrupt whatever you're doing without thinking","feel a small jolt of alertness before you've even looked","start replying before you've finished your original task"] },
+];
+const getGrid = document.getElementById('getGrid');
+getItems.forEach((g, i) => {
+  const card = document.createElement('div');
+  card.className = 'get-card';
+  card.innerHTML = `
+    <div class="get-card-head">
+      <span class="get-num">${i+1}</span>
+      <span class="term">${g.term}</span>
+      <span class="chev">▾</span>
+    </div>
+    <div class="get-body">
+      <div class="lead">${g.lead}</div>
+      ${g.items.map(it => `<label class="get-item-row"><input type="checkbox" class="get-tick"><span>${it}</span></label>`).join('')}
+    </div>`;
+  const expandZone = card.querySelector('.term');
+  const chev = card.querySelector('.chev');
+  const toggleOpen = () => card.classList.toggle('open');
+  expandZone.setAttribute('aria-label', g.term + ' — press to see what it looks like');
+  makeInteractive(expandZone, toggleOpen);
+  chev.addEventListener('click', toggleOpen);
+  getGrid.appendChild(card);
+});
+
+document.getElementById('calcNoiseBtn').addEventListener('click', () => {
+  const ticks = getGrid.querySelectorAll('.get-tick');
+  const checked = [...ticks].filter(t=>t.checked).length;
+  const pct = Math.round((checked / ticks.length) * 100);
+  let band, desc;
+  if (pct === 0){ band = "0% — No noise"; desc = "None of these seem to apply to you right now."; }
+  else if (pct <= 25){ band = pct + "% — Low"; desc = "A little noise here and there, but nothing that sounds out of control."; }
+  else if (pct <= 50){ band = pct + "% — Moderate"; desc = "Worth watching — a couple of patterns are already shaping your day."; }
+  else if (pct <= 75){ band = pct + "% — High"; desc = "This is very likely affecting your focus and energy already."; }
+  else { band = pct + "% — Critical"; desc = "Worth reconsidering your habits and your relationship with work and technology."; }
+  const result = document.getElementById('noiseResult');
+  result.innerHTML = `<div class="noise-pct">${pct}%</div><div class="noise-band">${band}</div><div class="noise-desc">${desc}</div>`;
+  result.classList.add('shown');
+  result.scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+/* ================= SECTION 3: consequences ================= */
+document.getElementById('tabbar').addEventListener('click', e => {
+  const btn = e.target.closest('button'); if (!btn) return;
+  document.querySelectorAll('#tabbar button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tabpane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-' + btn.dataset.tab).classList.add('active');
+});
+
+const cogWords = [
+  ["reduced attention span","Average time on one screen before switching: down from 2.5 minutes in 2004 to 47 seconds today.<span class=\"src\">Gloria Mark, <i>Attention Span</i> (2023), UC Irvine</span><span class=\"method\">Method: 20+ years of computer-logging field studies of real screen-switching behaviour.</span><a class=\"src-link\" href=\"https://www.informatics.uci.edu/?p=7800\" target=\"_blank\" rel=\"noopener\">Read more →</a>"],
+  ["difficulty concentrating","It can take up to 25 minutes to fully refocus after just one interruption.<span class=\"src\">Gloria Mark, <i>Attention Span</i> (2023), UC Irvine</span><span class=\"method\">Method: the same long-term field studies, timing how long attention takes to return.</span><a class=\"src-link\" href=\"https://www.informatics.uci.edu/?p=7800\" target=\"_blank\" rel=\"noopener\">Read more →</a>"],
+  ["mental fatigue","The average employee is interrupted roughly every 2 minutes — about 275 times a day.<span class=\"src\">Microsoft Work Trend Index</span><span class=\"method\">Method: Microsoft 365 usage data plus a survey of 31,000 workers in 31 countries.</span><a class=\"src-link\" href=\"https://www.microsoft.com/en-us/worklab/we-can-not-keep-up-with-work-but-ai-can-help\" target=\"_blank\" rel=\"noopener\">Read more →</a>"],
+  ["decision fatigue","Judges approved parole ~65% of the time early in a session — dropping toward 0% by the end, then back to 65% after a break.<span class=\"src\">Danziger, Levav &amp; Avnaim-Pesso (2011), PNAS</span><span class=\"method\">Method: analysis of 1,112 real parole rulings by 8 Israeli judges over 10 months. (Some later researchers have debated how large the effect really is.)</span><a class=\"src-link\" href=\"https://www.sciencedaily.com/releases/2011/04/110413151639.htm\" target=\"_blank\" rel=\"noopener\">Read more →</a>"],
+  ["cognitive overload","Switching between tasks has a real time cost — the APA has cited this research to estimate up to 40% of someone's productive time.<span class=\"src\">Rubinstein, Meyer &amp; Evans (2001), J. of Experimental Psychology</span><span class=\"method\">Method: lab experiments where people repeatedly switched between two tasks.</span><a class=\"src-link\" href=\"https://www.newswise.com/articles/is-multitasking-more-efficient\" target=\"_blank\" rel=\"noopener\">Read more →</a>"],
+];
+const emoWords = [
+  ["feeling overwhelmed",["to-do list grows faster than you can act on it","you freeze, or jump between tasks without finishing any","everything feels urgent at once"],"My inbox alone leaves me feeling overwhelmed before I've even started work."],
+  ["irritability",["small things suddenly annoy you","one more notification and your patience snaps","you feel on edge without a clear reason"],"Too many pings in a row can trigger an irritability I don't usually feel."],
+  ["anxiety",["a tight chest, a low hum of unease","thoughts race ahead to everything unanswered","checking becomes about relief, not information"],"Seeing my unread counts pile up gives me a low-level anxiety all day."],
+  ["restlessness",["can't sit still or settle into one thing","check the time, check your phone, get up, sit down","quiet moments feel uncomfortable"],"I feel a strange restlessness when my phone is in another room, even for ten minutes."],
+  ["feeling mentally drained",["brain feels foggy by the evening","simple decisions suddenly feel hard","you've \"done a lot\" but feel empty"],"By the end of the day, I feel mentally drained even though I haven't done that much."],
+];
+function makeEmoCard(term, feelList, example){
+  const card = document.createElement('div');
+  card.className = 'flip-card tall';
+  card.setAttribute('aria-label', term + ' — press for an example');
+  card.innerHTML = `
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <span class="seen-dot"></span>
+        <div class="term">${term}</div>
+        <ul class="feel-list">${feelList.map(f=>`<li>${f}</li>`).join('')}</ul>
+      </div>
+      <div class="flip-face flip-back">${example}</div>
+    </div>`;
+  makeInteractive(card, () => { card.classList.toggle('flipped'); card.classList.add('viewed'); });
+  return card;
+}
+document.getElementById('cogGrid').append(...cogWords.map(([t,e])=>makeFlipCard(t,e,'cog')));
+document.getElementById('emoGrid').append(...emoWords.map(([t,f,e])=>makeEmoCard(t,f,e)));
+
+const behaviours = [
+  { verb:"check your phone", why:"It's become automatic — you unlock the screen without deciding to.", instead:"Leave the phone in another room during focused tasks.", more:["Keep a notebook nearby as something else to reach for.","Turn the screen face-down, or switch it to greyscale, so it's less rewarding to glance at."] },
+  { verb:"scroll through your feed", why:"Because boredom is looking for something — anything — to latch onto.", instead:"Set a timer before you open the app.", more:["Replace the first five minutes of a break with a short walk instead of your phone.","Move the app off your home screen so opening it takes an extra step."] },
+  { verb:"switch between apps", why:"Multitasking feels productive, even though it fragments your focus.", instead:"Work on one task or app at a time.", more:["Close unrelated tabs before you start something that needs focus.","Use full-screen mode to remove the temptation of a visible taskbar."] },
+  { verb:"get sucked into social media", why:"Once autoplay removes the natural stopping point, nothing makes you pause.", instead:"Turn off autoplay and use a built-in time limit.", more:["Log out after each use, so opening the app takes an extra step.","Follow fewer accounts so the feed runs out sooner."] },
+  { verb:"doomscroll", why:"Negative content gets noticed more than neutral content does — which is why it's shown to us more.", instead:"Set a specific, time-boxed window for news.", more:["Choose one trusted source instead of an endless feed.","Read a short written summary rather than an algorithm-fed stream."] },
+];
+const behList = document.getElementById('behList');
+behaviours.forEach(b => {
+  const card = document.createElement('div');
+  card.className = 'act-card';
+  const options = [b.instead, ...b.more];
+  card.innerHTML = `
+    <div class="act-head"><span class="verb">${b.verb}</span><span class="chev">▾</span></div>
+    <div class="act-front">
+      <span class="prompt">Why do we do it?</span>
+      <span class="prompt">What to try instead?</span>
+    </div>
+    <div class="act-body">
+      <div class="why"><b>Why we do it:</b> ${b.why}</div>
+      <div class="instead-block">
+        <b>Try instead — a few options:</b>
+        <ul>${options.map(o=>`<li>${o}</li>`).join('')}</ul>
+      </div>
+      <div class="discuss-q">Would this work for you?</div>
+    </div>`;
+  card.setAttribute('aria-label', b.verb + ' — press to check your ideas');
+  makeInteractive(card, () => card.classList.toggle('open'));
+  behList.appendChild(card);
+});
+
+/* ================= SECTION 4: what else can we do ================= */
+const moreStrategies = [
+  { title:"Agree team communication norms", text:"Set explicit response-time expectations with colleagues instead of assuming instant replies. In practice: agree that non-urgent messages get answered within a day, so nobody feels guilty muting Slack or Teams for an afternoon. It only really works if the whole team sticks to it — one person ignoring the agreement undoes it for everyone." },
+  { title:"Redesign your workspace", text:"Declutter your desktop and home screen so distracting icons and files aren't the first thing you see when you open your laptop. It takes about 20 minutes, done once — though a messy inbox or drive can still pull you back in, so it's worth revisiting every few weeks." },
+  { title:"Use analogue tools for planning", text:"Swap a digital to-do list for a paper notebook or a printed list. It can't send you a push notification, and there's nothing to sync or get distracted by mid-check. The trade-off: you can't search it, and you'll still reach for your phone to check the time." },
+  { title:"Take a full digital sabbatical occasionally", text:"Instead of a short daily break, plan one whole day fully offline. It resets habits more deeply than a week of small breaks, and shows you which apps you actually missed. The catch: missed messages still need answering the next day — the backlog waits for you." },
+  { title:"Train your attention deliberately", text:"A short daily focus or mindfulness practice builds concentration itself, rather than just avoiding distraction. Ten minutes a day is enough to notice a difference within a few weeks — but progress is invisible day-to-day, so it's easy to give up early." },
+  { title:"Push for institutional change", text:"Some fixes aren't personal at all — a company-wide \"no meetings after 4pm\" rule or quiet hours protect everyone, not just the disciplined few. The downside: you probably can't decide this alone, and it can take months to get approved." },
+];
+const stratList = document.getElementById('stratList');
+moreStrategies.forEach((s, i) => {
+  const card = document.createElement('div');
+  card.className = 'poster-card';
+  card.innerHTML = `<div class="poster-num">${i+1}</div><h4>${s.title}</h4><p>${s.text}</p>`;
+  stratList.appendChild(card);
+});
+
+
+/* ================= SECTION 5: vocabulary glossary ================= */
+const glossary = [
+  { group:"Digital noise & why it happens", items:[
+    ["digital noise","the huge amount of digital information, notifications, messages, content and online stimuli constantly competing for our attention.","By the end of the day, digital noise makes it hard to think clearly."],
+    ["information overload","having more information coming in than you can actually process.","I feel information overload after just ten minutes of checking the news."],
+    ["digital clutter","disorganised files, tabs, downloads and apps piling up with no order.","My desktop is so full of digital clutter I can never find anything."],
+    ["online distractions","things on your screen that pull your attention away from what you're doing.","It's hard to write a report with so many online distractions open in other tabs."],
+    ["notification overload","being interrupted by too many alerts, pings and messages.","Notification overload meant I nearly missed the one message that actually mattered."],
+    ["the attention economy","a system in which companies compete for, and profit from, people's attention.","Social media platforms are built around the attention economy — the longer you stay, the more they earn."],
+    ["FOMO (fear of missing out)","anxiety that something interesting or important is happening elsewhere.","I keep checking my phone because of FOMO — I don't want to miss anything important."],
+  ]},
+  { group:"Consequences", items:[
+    ["attention span","the length of time you can stay focused on one thing.","My attention span feels shorter than it used to."],
+    ["decision fatigue","mental tiredness caused by having to make too many choices.","By the time I chose a restaurant, decision fatigue meant I didn't even care what we ate."],
+    ["cognitive overload","a state where the brain receives more information than it can process.","Juggling three group chats and two work channels causes cognitive overload."],
+    ["task-switching","moving repeatedly between different tasks or apps.","Constant task-switching makes it hard to do any single thing well."],
+    ["doomscroll","to keep scrolling through negative news or content, often without meaning to.","I always end up doomscrolling before bed, even though it makes me feel worse."],
+    ["get sucked into (something)","to become involved in something for much longer than intended.","I only meant to check one message, but I got sucked into Instagram for half an hour."],
+    ["mentally drained","mentally exhausted, with no energy left to think clearly.","By the end of the day, I feel mentally drained even though I haven't done that much."],
+  ]},
+  { group:"Talking about solutions", items:[
+    ["digital boundaries","personal limits on when or how you use technology.","Setting digital boundaries, like no phone at meals, has really helped me."],
+    ["digital sabbatical","a longer, planned period of being fully offline.","We're taking a digital sabbatical this weekend — no phones at all."],
+    ["prioritise","to decide which things are the most important and deal with them first.","With fifty unread emails, you have to prioritise what actually needs a reply today."],
+    ["put something off","to delay dealing with something until later.","I keep putting off replying to that email."],
+  ]},
+];
+const glossaryWrap = document.getElementById('glossaryWrap');
+glossary.forEach(g => {
+  const groupDiv = document.createElement('div');
+  groupDiv.className = 'gloss-group';
+  groupDiv.innerHTML = `<h3>${g.group}</h3>` + g.items.map(([term,def,ex]) => `
+    <div class="gloss-item">
+      <span class="gloss-term">${term}</span>
+      <div class="gloss-def">${def}</div>
+      <div class="gloss-ex">${ex}</div>
+    </div>`).join('');
+  glossaryWrap.appendChild(groupDiv);
+});
+</script>
+</body>
+</html>
